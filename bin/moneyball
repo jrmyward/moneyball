@@ -22,6 +22,7 @@ command :team_slugging_percentage do |c|
   c.option '--team STRING', String, 'The team ID (ex: OAK)'
   c.option '--year STRING', String, 'The year (ex: 2007)'
   c.action do |args, options|
-    puts Moneyball::BattingStat.team_slugging_percentage(options.team, options.year)
+    team_slugging_percentage = Moneyball::BattingStat.team_slugging_percentage(options.team, options.year)
+    puts "Slugging Percentage for #{options.team} in #{options.year}: #{team_slugging_percentage}"
   end
 end

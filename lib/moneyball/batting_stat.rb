@@ -9,9 +9,7 @@ module Moneyball
 
     def self.team_slugging_percentage(team_id, year)
       players = season_roster(team_id, year)
-      binding.pry
       team_slugging_percentage = (players.map(&:slugging_percentage).reduce(:+).to_f / players.count).round(3)
-      # "Slugging Percentage for #{team_id} in #{year}: #{team_slugging_percentage}"
     end
 
     # Batting average = hits / at-bats
