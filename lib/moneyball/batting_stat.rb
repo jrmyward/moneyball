@@ -14,6 +14,12 @@ module Moneyball
       # "Slugging Percentage for #{team_id} in #{year}: #{team_slugging_percentage}"
     end
 
+    # Batting average = hits / at-bats
+    def batting_avg
+      return 0.00 if at_bats == 0
+      (hits.to_f / at_bats.to_f).round(3)
+    end
+
     # Slugging percentage = ((Hits – doubles – triples – home runs) + (2 * doubles) + (3 * triples) + (4 * home runs)) / at-bats
     def slugging_percentage
       return 0.00 if at_bats == 0
