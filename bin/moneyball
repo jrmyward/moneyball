@@ -26,3 +26,14 @@ command :team_slugging_percentage do |c|
     puts "Slugging Percentage for #{options.team} in #{options.year}: #{team_slugging_percentage}"
   end
 end
+
+command :triple_crown_winner do |c|
+  c.syntax = 'moneyball team_slugging_percentage'
+  c.summary = 'Returns the season slugging percentage for a team given a team ID and year.'
+  c.option '--league STRING', String, 'The league ID (ex: AL)'
+  c.option '--year STRING', String, 'The year (ex: 2007)'
+  c.action do |args, options|
+    winner = Moneyball::BattingStat.triple_crown_winner(options.league, options.year)
+    puts "The #{options.leage} Triple Crown Winner for #{options.year}: #{winner}"
+  end
+end
