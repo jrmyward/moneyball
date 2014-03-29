@@ -9,17 +9,19 @@ program :description, 'CLI application that will be used to provide information 
 
 command :bootstrap do |c|
   c.syntax = 'moneyball bootstrap'
-  c.summary = 'Bootstraps the database from CSV files'
-  c.example 'description', 'command example'
+  c.summary = 'Bootstraps the database from CSV files.'
   c.action do |args, options|
     db = Moneyball::Database.new
     db.bootstrap
   end
 end
 
-# #!/usr/bin/env ruby
-#
-#
-#
-# stats = Moneyball::Stats.new
-# stats.say_hello
+command :team_slugging_percentage do |c|
+  c.syntax = 'moneyball team_slugging_percentage'
+  c.summary = 'Returns the season slugging percentage for a team given a team ID and year.'
+  c.option '--team STRING', String, 'The team ID (ex: OAK)'
+  c.option '--year STRING', String, 'The year (ex: 2007)'
+  c.action do |args, options|
+    puts Moneyball::BattingStat.team_slugging_percentage(options.team, options.year)
+  end
+end
