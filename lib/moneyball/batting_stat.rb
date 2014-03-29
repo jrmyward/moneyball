@@ -3,10 +3,10 @@ module Moneyball
     belongs_to :player, class_name: "Moneyball::Player", foreign_key: "player_id", primary_key: "player_id"
     delegate :first_name, :last_name, :full_name, :birth_year, to: :player, allow_nil: true, prefix: "player"
 
-    scope :for_team, ->(team) { where(team_id: team) }
     scope :for_year, ->(year) { where(year: year) }
     scope :home_run_leader, -> { order("home_runs desc").limit(1) }
     scope :in_league, ->(league) { where(league: league) }
+    scope :on_team, ->(team) { where(team_id: team) }
     scope :rbi_leader, -> { order("runs_batted_in desc").limit(1) }
 
     def self.batting_avg_leader_amongst(players)
@@ -36,7 +36,7 @@ module Moneyball
     end
 
     def self.team_slugging_percentage(team_id, year)
-      players = season_roster(team_id, year)
+      players = self.for_year(year).on_team(team_id)
       team_slugging_percentage = (players.map(&:slugging_percentage).reduce(:+).to_f / players.count).round(3)
     end
 
