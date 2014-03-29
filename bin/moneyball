@@ -1,6 +1,25 @@
 #!/usr/bin/env ruby
 
+require 'rubygems'
+require 'commander/import'
 require 'moneyball'
 
-stats = Moneyball::Stats.new
-stats.say_hello
+program :version, '0.0.1'
+program :description, 'CLI application that will be used to provide information about baseball player statistics'
+
+command :bootstrap do |c|
+  c.syntax = 'moneyball bootstrap'
+  c.summary = 'Bootstraps the database from CSV files'
+  c.example 'description', 'command example'
+  c.action do |args, options|
+    db = Moneyball::Database.new
+    db.bootstrap
+  end
+end
+
+# #!/usr/bin/env ruby
+#
+#
+#
+# stats = Moneyball::Stats.new
+# stats.say_hello

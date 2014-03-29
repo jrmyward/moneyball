@@ -7,7 +7,6 @@ require 'pry'
 
 db = Moneyball::Database.new
 db.connect
-db.schema_setup
 
 module Moneyball
 

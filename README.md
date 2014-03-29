@@ -20,6 +20,13 @@ Or install it yourself as:
 
 TODO: Write usage instructions here
 
+## CSV Assumptions
+### Batting-07-12.csv
+* G = games
+* R = ?
+* SB = ?
+* CS = ?
+
 ## Contributing
 
 1. Fork it ( http://github.com/<my-github-username>/moneyball/fork )
