@@ -16,6 +16,17 @@ command :bootstrap do |c|
   end
 end
 
+command :most_improved_batting_avg do |c|
+  c.syntax = 'moneyball most_improved_batting_avg'
+  c.summary = "Returns the player with the most improved batting average given a range of years."
+  c.option '--from STRING', String, 'The starting year (ex: 2007)'
+  c.option '--to STRING', String, 'The ending year (ex: 2007)'
+  c.action do |args, options|
+    winner = Moneyball::BattingStat.most_improved_batting_avg(options.from, options.to)
+    puts "Most improved batting average from #{options.from} to #{options.to}: #{winner}"
+  end
+end
+
 command :team_slugging_percentage do |c|
   c.syntax = 'moneyball team_slugging_percentage'
   c.summary = 'Returns the season slugging percentage for a team given a team ID and year.'
@@ -29,7 +40,7 @@ end
 
 command :triple_crown_winner do |c|
   c.syntax = 'moneyball team_slugging_percentage'
-  c.summary = 'Returns the season slugging percentage for a team given a team ID and year.'
+  c.summary = "Determines and returns the League's Triple Crown winner for a given year."
   c.option '--league STRING', String, 'The league ID (ex: AL)'
   c.option '--year STRING', String, 'The year (ex: 2007)'
   c.action do |args, options|

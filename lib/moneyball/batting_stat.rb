@@ -17,6 +17,24 @@ module Moneyball
       return winner
     end
 
+    def self.most_improved_batting_avg(from, to)
+      players_start = self.select(:id, :player_id, :hits, :at_bats).for_year(from).where("at_bats >= ?", 200).group("player_id").order("player_id asc")
+      players_end   = self.select(:id, :player_id, :hits, :at_bats).for_year(to).where("at_bats >= ?", 200).where(:player_id => players_start.map(&:player_id)).group("player_id").order("player_id asc")
+      compare_player_ids = players_end.map(&:player_id)
+      year1 = players_start.to_a.keep_if { |p| compare_player_ids.include?(p.player_id) }
+      year2 = players_end.to_a
+      winner = ""
+      delta  = 0
+      year1.each_with_index do |player, i|
+        player_delta = (year2[i].batting_avg - player.batting_avg).round(6)
+        if player_delta > delta
+          delta  = player_delta
+          winner = player
+        end
+      end
+      "#{winner.player_full_name} (+#{delta})"
+    end
+
     def self.team_slugging_percentage(team_id, year)
       players = season_roster(team_id, year)
       team_slugging_percentage = (players.map(&:slugging_percentage).reduce(:+).to_f / players.count).round(3)
