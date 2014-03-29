@@ -10,10 +10,4 @@ db.connect
 
 module Moneyball
 
-  class Stats
-    def say_hello
-      puts "Moneyball is alive and well."
-    end
-  end
-
 end

@@ -12,7 +12,7 @@ module Moneyball
     def bootstrap
       puts "Loading schema..."
       schema_setup
-      seed_data
+      seed_data if db_env == 'development'
     end
 
     def connect
