@@ -1,0 +1,92 @@
+#!/usr/bin/env ruby
+
+require 'rubygems'
+require 'commander/import'
+require 'moneyball'
+
+program :version, '0.0.1'
+program :description, 'CLI application that will be used to provide information about baseball player statistics'
+
+command :bootstrap do |c|
+  c.syntax = 'moneyball bootstrap'
+  c.summary = 'Bootstraps the database from CSV files.'
+  c.action do |args, options|
+    db = Moneyball::Database.new
+    db.bootstrap
+  end
+end
+
+command :highlights do |c|
+  c.syntax = 'moneyball highlights'
+  c.summary = "Returns a few interesting stats."
+  c.option '--from STRING', String, 'The starting year for comparison (ex: 2007)'
+  c.option '--to STRING', String, 'The ending year for comparison (ex: 2007)'
+  c.option '--slugging_team STRING', String, 'The slugging team ID (ex: OAK)'
+  c.option '--slugging_year STRING', String, 'The slugging year (ex: 2007)'
+  c.option '--tc_year_1 STRING', String, 'The first triple crown year (ex: 2011)'
+  c.option '--tc_year_2 STRING', String, 'The second triple year (ex: 2012)'
+  c.action do |args, options|
+    options.default \
+      from: 2009,
+      to: 2010,
+      slugging_team: "OAK",
+      slugging_year: 2007,
+      tc_year_1: 2011,
+      tc_year_2: 2012
+    most_improved_batting_avg = Moneyball::BattingStat.most_improved_batting_avg(options.from, options.to)
+    team_slugging_percentage  = Moneyball::BattingStat.team_slugging_percentage(options.slugging_team, options.slugging_year)
+    al_winner_1 = Moneyball::BattingStat.triple_crown_winner("AL", options.tc_year_1)
+    nl_winner_1 = Moneyball::BattingStat.triple_crown_winner("NL", options.tc_year_1)
+    al_winner_2 = Moneyball::BattingStat.triple_crown_winner("AL", options.tc_year_2)
+    nl_winner_2 = Moneyball::BattingStat.triple_crown_winner("NL", options.tc_year_2)
+
+    puts "Most improved batting average from #{options.from} to #{options.to}: #{most_improved_batting_avg}\n"
+    puts "Slugging Percentage for #{options.slugging_team} in #{options.slugging_year}: #{team_slugging_percentage}\n"
+    puts "The AL Triple Crown Winner for #{options.tc_year_1}: #{al_winner_1}\n"
+    puts "The NL Triple Crown Winner for #{options.tc_year_1}: #{nl_winner_1}"
+    puts "The AL Triple Crown Winner for #{options.tc_year_2}: #{al_winner_2}\n"
+    puts "The NL Triple Crown Winner for #{options.tc_year_2}: #{nl_winner_2}"
+  end
+end
+
+command :most_improved_batting_avg do |c|
+  c.syntax = 'moneyball most_improved_batting_avg'
+  c.summary = "Returns the player with the most improved batting average given a range of years."
+  c.option '--from STRING', String, 'The starting year (ex: 2007)'
+  c.option '--to STRING', String, 'The ending year (ex: 2007)'
+  c.action do |args, options|
+    options.default \
+      from: 2009,
+      to: 2010
+    winner = Moneyball::BattingStat.most_improved_batting_avg(options.from, options.to)
+    puts "Most improved batting average from #{options.from} to #{options.to}: #{winner}"
+  end
+end
+
+command :team_slugging_percentage do |c|
+  c.syntax = 'moneyball team_slugging_percentage'
+  c.summary = 'Returns the season slugging percentage for a team given a team ID and year.'
+  c.option '--team STRING', String, 'The team ID (ex: OAK)'
+  c.option '--year STRING', String, 'The year (ex: 2007)'
+  c.action do |args, options|
+    options.default \
+      team: "OAK",
+      year: 2007
+    team_slugging_percentage = Moneyball::BattingStat.team_slugging_percentage(options.team, options.year)
+    puts "Slugging Percentage for #{options.team} in #{options.year}: #{team_slugging_percentage}"
+  end
+end
+
+command :triple_crown_winner do |c|
+  c.syntax = 'moneyball team_slugging_percentage'
+  c.summary = "Determines and returns the League's Triple Crown winner for a given year."
+  c.option '--league STRING', String, 'The league ID (ex: AL)'
+  c.option '--year STRING', String, 'The year (ex: 2007)'
+  c.action do |args, options|
+    options.default \
+      league: "AL",
+      year: 2012
+    winner = Moneyball::BattingStat.triple_crown_winner(options.league, options.year)
+    puts "The #{options.league} Triple Crown Winner for #{options.year}: #{winner}"
+  end
+end
