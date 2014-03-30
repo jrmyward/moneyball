@@ -1,24 +1,45 @@
 # Moneyball
 
-TODO: Write a gem description
+Moneyball is an MVP (no pun intend...well, only a little intended) command line application
+for retrieving random baseball stats.
 
 ## Installation
 
-Add this line to your application's Gemfile:
+This application is not intended to be an "official" ruby gem. Therefore, to install it, you
+simply need to clone the repository:
 
-    gem 'moneyball'
+    $ git clone git@github.com:jrmyward/moneyball.git
 
-And then execute:
 
+Next, you need to bundle the dependencies:
+
+    $ cd moneyball
     $ bundle
 
-Or install it yourself as:
+Finally, to view the available commands:
 
-    $ gem install moneyball
+    $ bundle exec moneyball --help
 
 ## Usage
 
-TODO: Write usage instructions here
+Moneyball has several available commands.
+
+### Highlights
+
+To see some interesting, if not random, stats, run:
+
+    $ bundle exec moneyball highlights
+
+View, the available options to change the output:
+
+    $ bundle exec moneyball highlights --help
+
+There are three more commands. Feel free to explore them at your leisure.
+
+
+## TODO
+* Add error handling to command inputs
+* Add additional test coverage to Class-level methods.
 
 ## CSV Assumptions
 ### Batting-07-12.csv
