@@ -11,10 +11,11 @@ simply need to clone the repository:
     $ git clone git@github.com:jrmyward/moneyball.git
 
 
-Next, you need to bundle the dependencies:
+Next, you need to bundle the dependencies and install the gem locally:
 
     $ cd moneyball
     $ bundle
+    $ bundle exec rake install
 
 Finally, to view the available commands:
 
