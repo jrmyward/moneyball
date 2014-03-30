@@ -36,6 +36,20 @@ View, the available options to change the output:
 
 There are three more commands. Feel free to explore them at your leisure.
 
+## Specs
+
+To run the specs, you have two options.
+
+First, with Guard:
+
+    $ bundle exec guard
+     // tap Enter to have guard run the entire test suite  
+
+Second, good-ol RSpec, with a twist
+
+    $ DB_ENV=test bundle exec rspec
+
+`DB_ENV=test` simply signals ActiveRecord that you want to use the Test database.
 
 ## TODO
 * Add error handling to command inputs
